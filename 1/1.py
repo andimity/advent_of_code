@@ -15,6 +15,16 @@ def array_from_inputfile(filename:str)->list:
     return rows
 
 
+def vector_sum(vector:list):
+    sum = 0
+    for entry in vector:
+        sum += entry
+    
+    return sum
+
+
 elves = array_from_inputfile(filename='./1/input.txt')
-print(elves[0])
+calories = [vector_sum(elf) for elf in elves]
+calories.sort(reverse=True)
+print(calories[0])
     
