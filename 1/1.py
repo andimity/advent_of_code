@@ -26,5 +26,7 @@ def vector_sum(vector:list):
 elves = array_from_inputfile(filename='./1/input.txt')
 calories = [vector_sum(elf) for elf in elves]
 calories.sort(reverse=True)
-print(calories[0])
+
+print(f"solution to part 1: {calories[0]}")
+print(f"solution to part 2: {vector_sum(calories[0:3])}")
     
