@@ -47,11 +47,12 @@ static inline int calculate_score(char opponentChoice, char myChoice){
 
 int main(int argc, char const *argv[])
 {   
-    char i[4];
+    char i[5];
     FILE* input = fopen("input.txt","r");
-    fgets(i,sizeof(i),input);
-    printf("opponentChoice: %c, myChoice: %c\n",i[0],i[2]);
-    printf("score: %d\n", calculate_score(i[0],i[2]));
+    while(fgets(i,sizeof(i),input) != NULL){        
+        printf("opponentChoice: %c, myChoice: %c\n",i[0],i[2]);
+        printf("score: %d\n", calculate_score(i[0],i[2]));
+    }
     fclose(input);
     return 0;
 }
