@@ -2,7 +2,17 @@
 #include <stdlib.h>
 
 
-int outcome_score(char opponentChoice, char myChoice){
+static int shape_score(char shape){
+    switch (shape)
+    {
+    case 'X': return 1; break; // Rock
+    case 'Y': return 2; break; // Paper
+    case 'Z': return 3; break; // Sciccor
+    default: printf("unknown symbol for shape"); return -1; break;
+    }
+}
+
+static int outcome_score(char opponentChoice, char myChoice){
     switch (opponentChoice){
     case 'A': // Rock
         switch (myChoice){
@@ -29,13 +39,19 @@ int outcome_score(char opponentChoice, char myChoice){
     }
 }
 
+
+static inline int calculate_score(char opponentChoice, char myChoice){
+    return outcome_score(opponentChoice, myChoice) + shape_score(myChoice);
+}
+
+
 int main(int argc, char const *argv[])
 {   
     char i[4];
     FILE* input = fopen("input.txt","r");
     fgets(i,sizeof(i),input);
     printf("opponentChoice: %c, myChoice: %c\n",i[0],i[2]);
-    printf("outcome score: %d\n", outcome_score(i[0],i[2]));
+    printf("score: %d\n", calculate_score(i[0],i[2]));
     fclose(input);
     return 0;
 }
