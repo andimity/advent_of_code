@@ -22,11 +22,17 @@ static inline bool fully_contained(int start1, int end1, int start2, int end2){
 }
 
 
+static inline bool overlapping(int start1, int end1, int start2, int end2){
+    return (end1 >= start2) && (end2>=start1);
+}
+
+
 int main(int argc, char const *argv[])
 {   
     FILE* inputfile = fopen("input.txt","r");
     int start1,start2,end1,end2;
-    int counter = 0;
+    int containCounter = 0;
+    int overlapCounter = 0;
 
     do{
     start1 = get_int_from_file(inputfile);
@@ -36,13 +42,13 @@ int main(int argc, char const *argv[])
 
     if(!start1)break;
 
-    counter += fully_contained(start1,end1,start2,end2);
+    containCounter += fully_contained(start1,end1,start2,end2);
+    overlapCounter += overlapping(start1,end1,start2,end2);
 
-    // printf("%d-%d,%d-%d",start1,end1,start2,end2);
-    // printf("-->%d\n",fully_contained(start1,end1,start2,end2));
     } while (true);
     
-    printf("solution to part 1: %d\n",counter);
+    printf("solution to part 1: %d\n",containCounter);
+    printf("solution to part2: %d\n",overlapCounter);
 
     fclose(inputfile);
     return 0;
