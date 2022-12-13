@@ -4,7 +4,7 @@
 #define BUFFERSIZE      5
 
 
-int get_int_from_file(FILE* inputfile){
+static int get_int_from_file(FILE* inputfile){
     char digit;
     char buffer[BUFFERSIZE];
     for (uint8_t i=0; i<BUFFERSIZE; i++){  
@@ -16,10 +16,17 @@ int get_int_from_file(FILE* inputfile){
     return atoi(buffer);
 }
 
+
+static inline bool fully_contained(int start1, int end1, int start2, int end2){
+    return (start1<=start2 && end2<=end1) || (start2<=start1 && end1<=end2);
+}
+
+
 int main(int argc, char const *argv[])
 {   
     FILE* inputfile = fopen("input.txt","r");
     int start1,start2,end1,end2;
+    int counter = 0;
 
     do{
     start1 = get_int_from_file(inputfile);
@@ -29,11 +36,13 @@ int main(int argc, char const *argv[])
 
     if(!start1)break;
 
-    printf("range 1: %d - %d\n",start1,end1);
-    printf("range 2: %d - %d\n",start2,end2);
+    counter += fully_contained(start1,end1,start2,end2);
+
+    // printf("%d-%d,%d-%d",start1,end1,start2,end2);
+    // printf("-->%d\n",fully_contained(start1,end1,start2,end2));
     } while (true);
     
-
+    printf("solution to part 1: %d\n",counter);
 
     fclose(inputfile);
     return 0;
