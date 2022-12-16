@@ -2,20 +2,15 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define WINDOW_SIZE         4
 
-// static bool repetition(char* buf, uint8_t len){
-//     char reference = buf[0];
-//     for(uint8_t i=1; i<len; i++){
-//         if(buf[i] == reference) return true;
-//     }
-//     return false;
-// }
-
-
-static inline bool repetition(char* buffer){
-    return (buffer[0]==buffer[1] || buffer[0]==buffer[2] || buffer[0]==buffer[3] \
-        || buffer[1]==buffer[2] || buffer[1]==buffer[3] || buffer[2]==buffer[3]);
+static bool repetition(char* buffer, uint8_t len){
+    for(uint8_t i=0; i<len; i++){
+        char reference = buffer[i];
+        for(uint8_t k=i+1; k<len; k++){
+            if(buffer[k] == reference) return true;
+        }
+    }
+    return false;
 }
 
 
@@ -29,25 +24,25 @@ static void insert(char symbol, char* buffer, uint8_t length){
 }
 
 
-int solve_part1(void){
+int detect_start_marker(uint8_t windowSize){
     
     // declarations
     int symbolCounter = 0;
-    char buffer[5];
+    char buffer[windowSize+1];
     char next_symbol_buffer[2];
     FILE* input = fopen("input.txt","r");
 
     // init buffer
     fgets(buffer,sizeof(buffer),input);
-    symbolCounter += WINDOW_SIZE;
-    if(!repetition(buffer)){
+    symbolCounter += windowSize;
+    if(!repetition(buffer,windowSize)){
         return symbolCounter;
     }
     // 
     while(fgets(next_symbol_buffer,sizeof(next_symbol_buffer),input) != NULL){   
-        insert(next_symbol_buffer[0],buffer,WINDOW_SIZE);
+        insert(next_symbol_buffer[0],buffer,windowSize);
         symbolCounter++;
-        if(!repetition(buffer)){
+        if(!repetition(buffer,windowSize)){
             printf("marker identified: %s\n",buffer);
             return symbolCounter;
         }
@@ -59,7 +54,7 @@ int solve_part1(void){
 
 int main(int argc, char const *argv[])
 {   
-    printf("solution to part1: %d\n", solve_part1());
-    printf("solution to part2: %d\n", 0);
+    printf("solution to part1: %d\n", detect_start_marker(4));
+    printf("solution to part2: %d\n", detect_start_marker(14));
     return 0;
 }
