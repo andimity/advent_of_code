@@ -52,7 +52,7 @@ if __name__ == "__main__":
     filesystem:list[item] = []
     directories:list[str] = ['/']
 
-    with open("./7/test.txt") as inputfile:
+    with open("./7/input.txt") as inputfile:
         lines = inputfile.readlines()
 
     for line in lines:
@@ -62,19 +62,11 @@ if __name__ == "__main__":
 
         elif line.startswith('dir'):
             directoryName = line.removeprefix('dir ').removesuffix('\n')
-            directories.append(directoryName)
+            directories.append(f"{currentPath}{directoryName}")
             continue
 
         itemSize,itemName =  re.search(f"(.+) (.+)", line).groups()
-        itemParents = currentPath.split(sep='/')[2:-1]
-        itemParents.append('/')
-        newItem = item(name=itemName,size=int(itemSize),parents=itemParents)
+        newItem = item(name=itemName,size=int(itemSize),parents=currentPath)
         filesystem.append(newItem)
 
-    print(filesystem)
-
-    for directory in directories:
-        print(f"{directory}:{directory_size(directory)}")
-
     print(f"solution to part 1: {sum_directory_sizes_smaller_than(100000)}")
-    # 1072909 too small
