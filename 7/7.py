@@ -18,9 +18,8 @@ def execute_command(command:str):
     global currentPath
     targetDir = command.removeprefix('cd ').removesuffix('\n')
     if targetDir == '..':
-        latestDirectory = currentPath.rsplit(sep='/')[-1]
-        # print(f"path removed: {currentPath.rsplit(sep='/')[-2]}")
-        currentPath.removesuffix(f"/{latestDirectory}")
+        latestDirectory = currentPath.rsplit(sep='/')[-2]
+        currentPath = currentPath.removesuffix(f"{latestDirectory}/")
     else:
         currentPath += (f"{targetDir}/")
 
