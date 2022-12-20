@@ -1,4 +1,4 @@
-DAY = 6
+DAY = 8
 
 all: clean compile run
 
