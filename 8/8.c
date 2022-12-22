@@ -34,13 +34,22 @@ static int count_columns(const char *filename)
 
 static uint8_t** matrix_allocate(uint16_t rows, uint16_t cols)
 {   
-    uint8_t **matrix = (uint8_t**)malloc(sizeof(uint8_t*) * rows*cols*1);
+    uint8_t **matrix = (uint8_t**) malloc(sizeof(uint8_t*) * rows * cols);
     for(uint16_t row=0; row<rows; row++){
         matrix[row] = (uint8_t*)malloc(cols);
     }
 
     printf("%d x %d matrix allocated\n", rows, cols);
     return matrix;
+}
+
+
+static void matrix_free(uint8_t** matrix, uint16_t rows)
+{   
+    for(uint16_t row=0; row<rows; row++){
+        free((void*) matrix[row]);
+    }
+    free((void*) matrix);
 }
 
 
@@ -53,7 +62,6 @@ static void matrix_fill(uint8_t** matrix, uint16_t rows, uint16_t cols, const ch
         line = fgetln(file,&len);
         for(uint16_t col=0; col<cols; col++){
             matrix[row][col] = (uint8_t)line[col] - '0';
-            // printf("matrix (%d,%d) = %d\n",row,col,matrix[row][col]);
         }
     }
     printf("%d x %d matrix filled\n", rows, cols);
@@ -69,7 +77,7 @@ int main(int argc, char const *argv[])
 
     matrix_fill(forest,rows,cols,FILENAME);
 
-    free(forest);
+    matrix_free(forest,rows);
 
     return 0;
 }
