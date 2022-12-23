@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#define FILENAME        "test.txt"
+#define FILENAME        "input.txt"
 
 /* Tree struct containing position and height*/
 typedef struct Tree{

@@ -1,4 +1,4 @@
-#include "./8/matrix.h"
+#include "matrix.h"
 
 
 static size_t** matrix_allocate(size_t rows, size_t cols)
