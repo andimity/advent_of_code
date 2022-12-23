@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #define FILENAME        "test.txt"
 
+/* Tree struct containing position and height*/
 typedef struct Tree{
     uint16_t row;
     uint16_t col;
