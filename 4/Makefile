@@ -1,8 +1,10 @@
+DAY = 4
+
 all: clean compile run
 
 compile:
-	gcc 4.c -o 4.exe
-run: 4.exe
-	./4.exe $(input.txt)
+	gcc $(DAY).c -o $(DAY).exe
+run: $(DAY).exe
+	./$(DAY).exe $(input.txt)
 clean:
-	rm -f 4.exe
+	rm -f $(DAY).exe
