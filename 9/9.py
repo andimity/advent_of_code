@@ -1,6 +1,6 @@
 import copy
 
-FILENAME = "9/test.txt"
+FILENAME = "9/input.txt"
 
 class Position:
     def __init__(self, x:int, y:int) -> None:
@@ -35,29 +35,47 @@ class Knot:
             self.position.x -= 1
         else:
             raise Exception("invalid direction")
-        self.update_visited_positions()
 
 
-# TODO
-def tail_adjacent_to_head() -> bool:
-    return False
+class Rope:
+    def __init__(self) -> None:
+        self.head = Knot()
+        self.tail = Knot()
+
+    def tail_adjacent_to_head(self) -> bool:
+        distanceX = abs(self.head.position.x - self.tail.position.x)
+        distanceY = abs(self.head.position.y - self.tail.position.y)
+        return not (distanceX > 1 or distanceY > 1)
+
+    
+    def tail_adjacent_to_head_vertically(self) -> bool:
+        distanceX = abs(self.head.position.x - self.tail.position.x)
+        distanceY = abs(self.head.position.y - self.tail.position.y)
+        return distanceX == 1 and distanceY == 1
 
 
-def move_head_and_tail(direction:str, steps:int) -> None:
-    global head
-    global tail
-    for _ in range(steps):
-        head.move(direction)
-        if not tail_adjacent_to_head():
-            tail.move(direction)
+    def update_tail_position(self, direction:str):
+        self.tail.move(direction)
+        if self.tail_adjacent_to_head_vertically():
+            if direction == 'U' or direction == 'D':
+                self.tail.position.x = self.head.position.x
+            elif direction == 'L' or direction == 'R':
+                self.tail.position.y = self.head.position.y
+        self.tail.update_visited_positions()
+
+
+    def move_head(self, direction:str) -> None:
+        self.head.move(direction)
+        self.head.update_visited_positions()
+        if not self.tail_adjacent_to_head():
+            self.update_tail_position(direction)
             
         
 
 
 if __name__ == "__main__":
 
-    head = Knot()
-    tail = Knot()
+    rope = Rope()
 
     with open(FILENAME, 'r') as f:
         instructions = f.readlines()
@@ -65,7 +83,8 @@ if __name__ == "__main__":
     for instruction in instructions:
         direction = instruction.split()[0]
         steps = int(instruction.removeprefix(f"{direction} ").removesuffix('\n'))
-        move_head_and_tail(direction,steps)
+        for _ in range(steps):
+            rope.move_head(direction)
     
-    print(f"{tail.visitedPositions}")
+    print(f"solution to part 1: {len(rope.tail.visitedPositions)}")
     
